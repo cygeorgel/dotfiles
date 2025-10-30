@@ -1,17 +1,210 @@
+# Method snippets
 snippet pubf "public method"
-    public function ${1}(${2}): $3
+    public function ${1:methodName}(${2}): ${3:void}
     {
         ${0}
     }
 
 snippet prof "protected method"
-    protected function ${1}(${2}): $3
+    protected function ${1:methodName}(${2}): ${3:void}
     {
         ${0}
     }
 
 snippet prif "private method"
-    private function ${1}(${2}): $3
+    private function ${1:methodName}(${2}): ${3:void}
+    {
+        ${0}
+    }
+
+# Class snippets
+snippet class "class"
+    class ${1:ClassName}
+    {
+        ${0}
+    }
+
+snippet iface "interface"
+    interface ${1:InterfaceName}
+    {
+        ${0}
+    }
+
+snippet trait "trait"
+    trait ${1:TraitName}
+    {
+        ${0}
+    }
+
+snippet enum "enum"
+    enum ${1:EnumName}
+    {
+        ${0}
+    }
+
+# PHPDoc snippets
+snippet doc "PHPDoc block"
+    /**
+     * ${1:Description}
+     *
+     * @param ${2:type} $${3:param}
+     * @return ${4:type}
+     */
+    ${0}
+
+snippet docm "PHPDoc method"
+    /**
+     * ${1:Description}
+     *
+     * @param ${2:type} $${3:param}
+     * @return ${4:type}
+     * @throws ${5:Exception}
+     */
+    ${0}
+
+# Constructor and destructor
+snippet __construct "constructor"
+    public function __construct(${1})
+    {
+        ${0}
+    }
+
+snippet __destruct "destructor"
+    public function __destruct()
+    {
+        ${0}
+    }
+
+# Common patterns
+snippet echo "echo"
+    echo ${1};
+    ${0}
+
+snippet return "return"
+    return ${1};
+    ${0}
+
+snippet if "if statement"
+    if (${1:condition}) {
+        ${0}
+    }
+
+snippet ife "if-else"
+    if (${1:condition}) {
+        ${2}
+    } else {
+        ${0}
+    }
+
+snippet ifel "if-elseif-else"
+    if (${1:condition}) {
+        ${2}
+    } elseif (${3:condition}) {
+        ${4}
+    } else {
+        ${0}
+    }
+
+snippet foreach "foreach"
+    foreach ($${1:array} as $${2:key} => $${3:value}) {
+        ${0}
+    }
+
+snippet for "for loop"
+    for ($${1:i} = 0; $${1:i} < ${2:count}; $${1:i}++) {
+        ${0}
+    }
+
+snippet while "while loop"
+    while (${1:condition}) {
+        ${0}
+    }
+
+snippet try "try-catch"
+    try {
+        ${1}
+    } catch (${2:Exception} $${3:e}) {
+        ${0}
+    }
+
+snippet switch "switch statement"
+    switch ($${1:variable}) {
+        case ${2:value}:
+            ${3}
+            break;
+        default:
+            ${0}
+            break;
+    }
+
+# Namespace and use
+snippet namespace "namespace"
+    namespace ${1:Namespace};
+    ${0}
+
+snippet use "use statement"
+    use ${1:Namespace\ClassName};
+    ${0}
+
+# Array and Collection
+snippet array "array"
+    $${1:array} = [
+        ${0}
+    ];
+
+snippet arr "array (short)"
+    [${0}]
+
+# Type hints
+snippet nullable "nullable type"
+    ?${1:Type}
+    ${0}
+
+snippet union "union type"
+    ${1:Type1}|${2:Type2}
+    ${0}
+
+# Common PHP functions
+snippet dd "dump and die"
+    dd($${1:variable});
+    ${0}
+
+snippet dump "dump"
+    dump($${1:variable});
+    ${0}
+
+snippet isset "isset"
+    isset($${1:variable})
+    ${0}
+
+snippet empty "empty"
+    empty($${1:variable})
+    ${0}
+
+# Laravel-specific (common patterns)
+snippet route "Laravel route"
+    Route::${1:get}('${2:path}', [${3:Controller}::class, '${4:method}']);
+    ${0}
+
+snippet model "Laravel model method"
+    public function ${1:methodName}()
+    {
+        return $this->${2:belongsTo|hasMany|belongsToMany}(${3:Model::class});
+    }
+    ${0}
+
+# Testing
+snippet test "PHPUnit test method"
+    public function test_${1:test_name}(): void
+    {
+        ${0}
+    }
+
+snippet testc "PHPUnit test with comments"
+    /**
+     * @test
+     */
+    public function ${1:test_name}(): void
     {
         ${0}
     }

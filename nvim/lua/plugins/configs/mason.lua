@@ -1,5 +1,18 @@
 local options = {
-  ensure_installed = { "lua-language-server" }, -- not an option from mason.nvim
+  ensure_installed = {
+    -- LSP servers
+    "lua-language-server",
+    "intelephense", -- PHP LSP
+    "typescript-language-server",
+    "pyright",
+    "gopls",
+    
+    -- PHP tools
+    "php-debug-adapter", -- PHP debugging
+    "phpcs", -- PHP CodeSniffer
+    "phpstan", -- PHP static analysis
+    "psalm", -- PHP static analysis
+  }, -- not an option from mason.nvim
 
   PATH = "skip",
 

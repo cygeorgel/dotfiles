@@ -8,6 +8,22 @@ g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 g.toggle_theme_icon = "   "
 g.transparency = config.ui.transparency
 g.snipmate_snippet_path  = "~/dotfiles/nvim/snippets"
+
+-- Suppress LSP deprecation warnings (nvim-lspconfig shows warnings for old API)
+vim.lsp.log.set_level("error")
+-- Intercept and suppress deprecation notifications
+local original_notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if type(msg) == "string" then
+    -- Suppress the specific deprecation warning from nvim-lspconfig about require('lspconfig')
+    if msg:match("require.*lspconfig.*framework.*deprecated") or
+       msg:match("lspconfig.*framework.*deprecated") or
+       msg:match("use vim%.lsp%.config") then
+      return
+    end
+  end
+  return original_notify(msg, level, opts)
+end
 -------------------------------------- options ------------------------------------------
 opt.laststatus = 3 -- global statusline
 opt.showmode = false

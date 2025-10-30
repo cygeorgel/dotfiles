@@ -465,4 +465,123 @@ M.gitsigns = {
   },
 }
 
+M.php = {
+  plugin = true,
+
+  n = {
+    -- PHP syntax check
+    ["<leader>ps"] = {
+      function()
+        local file = vim.api.nvim_buf_get_name(0)
+        if file ~= "" then
+          vim.cmd("!php -l " .. vim.fn.shellescape(file))
+        end
+      end,
+      "PHP syntax check",
+    },
+
+    -- Generate PHPDoc
+    ["<leader>pd"] = {
+      function()
+        local line = vim.api.nvim_get_current_line()
+        local indent = string.match(line, "^%s*") or ""
+        local row = vim.api.nvim_win_get_cursor(0)[1]
+
+        -- Try to detect function signature
+        local lines = vim.api.nvim_buf_get_lines(0, math.max(0, row - 2), math.min(vim.api.nvim_buf_line_count(0), row + 3), false)
+        local sig = table.concat(lines, "\n")
+
+        if string.match(sig, "function%s+") then
+          -- Generate PHPDoc for function
+          local doc = {
+            indent .. "/**",
+            indent .. " * ",
+            indent .. " * @return void",
+            indent .. " */",
+          }
+          vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, doc)
+        else
+          -- Generic docblock
+          local doc = {
+            indent .. "/**",
+            indent .. " * ",
+            indent .. " */",
+          }
+          vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, doc)
+        end
+      end,
+      "Generate PHPDoc block",
+    },
+
+    -- Run PHPUnit
+    ["<leader>pt"] = {
+      function()
+        vim.cmd("!phpunit")
+      end,
+      "Run PHPUnit",
+    },
+
+    -- Run PHPUnit on current file
+    ["<leader>pf"] = {
+      function()
+        local file = vim.api.nvim_buf_get_name(0)
+        if file ~= "" then
+          vim.cmd("!phpunit " .. vim.fn.shellescape(file))
+        end
+      end,
+      "Run PHPUnit on current file",
+    },
+  },
+}
+
+M.maintenance = {
+  n = {
+    -- Reinstall all plugins via lazy.nvim
+    ["<leader>ri"] = {
+      function()
+        vim.cmd("Lazy clean")
+        vim.cmd("Lazy install")
+        vim.notify("Plugins reinstallation started. Check :Lazy for progress.", vim.log.levels.INFO)
+      end,
+      "Reinstall all plugins",
+    },
+
+    -- Clean and reinstall lazy.nvim plugins
+    ["<leader>rc"] = {
+      function()
+        vim.cmd("Lazy clean")
+        vim.notify("Lazy cache cleaned. Restart Neovim to reinstall plugins.", vim.log.levels.INFO)
+      end,
+      "Clean lazy.nvim cache",
+    },
+
+    -- Update all plugins
+    ["<leader>ru"] = {
+      function()
+        vim.cmd("Lazy update")
+        vim.notify("Updating all plugins...", vim.log.levels.INFO)
+      end,
+      "Update all plugins",
+    },
+
+    -- Reinstall PHP tools via Mason
+    ["<leader>rp"] = {
+      function()
+        vim.cmd("Mason")
+        vim.notify("Mason UI opened. Uninstall and reinstall PHP tools manually, or use :MasonInstallAll", vim.log.levels.INFO)
+      end,
+      "Open Mason (to reinstall PHP tools)",
+    },
+
+    -- Install all Mason tools
+    ["<leader>rm"] = {
+      function()
+        vim.cmd("MasonInstallAll")
+        vim.notify("Installing all Mason tools...", vim.log.levels.INFO)
+      end,
+      "Install all Mason tools",
+    },
+  },
+}
+
 return M
